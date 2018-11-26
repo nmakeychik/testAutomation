@@ -8,6 +8,9 @@ public class Student {
 	 * Maximal allowed grade.
 	 */
     private static final int MAX_MARK = 10;
+	/**
+	 * Minimal allowed grade.
+	 */
     private static final int MIN_MARK = 1;
 
     private List<Integer> marks;
