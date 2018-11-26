@@ -3,6 +3,9 @@ package by.bsu.mark.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entity represents group of students.
+ */
 public class Group {
     private List<Student> students;
 
