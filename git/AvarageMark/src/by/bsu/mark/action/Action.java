@@ -6,6 +6,9 @@ import by.bsu.mark.entity.Group;
 import by.bsu.mark.entity.Student;
 
 public class Action {
+	/**
+	 * Calculates avarage grade for passed student.
+	 */
     public double getStudentAvg(Student student) {
         OptionalDouble average = student.getMarks().stream().mapToDouble(a -> a).average();
         return average.isPresent() ? average.getAsDouble() : 0;
