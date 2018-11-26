@@ -3,6 +3,9 @@ package by.bsu.mark.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entity represents student having grades.
+ */
 public class Student {
 	/**
 	 * Maximal allowed grade.
