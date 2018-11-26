@@ -1,0 +1,126 @@
+https://www.alaskaair.com/
+
+1)
+Head: 
+Скрывает поле выбора даты обратного рейса после нажатия на one-way.
+
+Steps:
+1)Зайти на https://www.alaskaair.com/
+2)На вкладке Flights нажать на "one way"
+
+Expected result:
+Поле выбора даты обратного рейса "Return date" исчезло. 
+
+2)
+Head: 
+Способен запретить заказать билеты на младенцев в остутствие совершеннолетних.
+
+Steps:
+1)Зайти на https://www.alaskaair.com/
+2)На вкладке Flights нажать на выпадающее меню под надписью Children.
+3)Нажать на поле + рядом с надписью "Under 2 (on lap)".
+
+Expected result:
+Появляется сообщение "You cannot have more lap infants than you have adults".
+
+3)
+Head: 
+Способен запретить заказ билетов для младенцев на число, превышающее количество взрослых.
+
+Steps:
+1)Зайти на https://www.alaskaair.com/
+2)На вкладке Flights нажать на выпадающее меню под надписью Adults.
+3)Выбрать опцию "1 Adult"
+4)На вкладке Flights нажать на выпадающее меню под надписью Children.
+5)Нажать на поле + рядом с надписью "Under 2 (on lap)" 2 раза.
+ 
+Expected result:
+Значение "1 children" рядом с надписью "Under 2 (on lap)".
+
+4)
+Head: 
+Способен запретить бронирование билетов на более чем 7 несовершеннолетних в возрасте 2-17.
+
+Steps:
+1)Зайти на https://www.alaskaair.com/
+2)На вкладке Flights нажать на выпадающее меню под надписью Children.
+3)Нажать на поле + рядом с надписью "Ages 2-17" 8 раз.
+ 
+Expected result:
+Появляется сообщение "You may only book up to 7 children at a time".
+
+5)
+Head:
+Способен запретить выбор билетов на обратный рейс на предшествующую вылету дату.
+
+Steps:
+1)Зайти на https://www.alaskaair.com/
+2)В поле From указать "New York, NY (All Airports)" 
+3)В поле To указать "Washington, DC (All Airports)" 
+4)В поле Departure date указать завтрашнюю дату.
+5)В поле Return date указать сегодняшнюю дату.
+6)Нажать на кнопку "Find flights".
+
+Expected result:
+Появляется сообщение "Return date is before departure date. please change your dates".
+
+6)
+Head: 
+Способен запретить приобретение билетов с одинаковым местом вылета и прибытия.
+
+Steps:
+1)Зайти на https://www.alaskaair.com/
+2)В поле From указать "New York, NY (All Airports)" 
+3)В поле To указать "New York, NY (All Airports)" 
+4)Нажать на кнопку "Find flights".
+ 
+Expected result:
+Появляется сообщение "From and to cities or airports cannot be the same".
+
+7)
+Head: 
+Показывает поле выбора типа билета и количества комнат в номере при выборе пакета услуг "Flight + Hotel"
+
+Steps:
+1)Зайти на https://www.alaskaair.com/
+2)Выбрать вкладку "Packages"
+3)В выпадающем меню "Package Options" выбрать "Flight + Hotel"
+ 
+Expected result:
+Присутствуют выпадающие поля "Cabin" и "Rooms"
+
+8)
+Head: 
+Показывает поле ввода кода подтверждения при попытке получить билет для распечатки.
+
+Steps:
+1)Зайти на https://www.alaskaair.com/
+2)Выбрать вкладку "Check in"
+3)В выпадающем меню "Look up reservation" выбрать "Confirmation code"
+ 
+Expected result:
+Появилось выпадающее меню "Confirmation code".
+
+9)
+Head: 
+Способен отобразить требуемое количество комнат при выборе отеля.
+
+Steps:
+1)Зайти на https://www.alaskaair.com/
+2)Выбрать вкладку "Hotels"
+3)В выпадающем меню "Rooms" выбрать "2 Rooms"
+
+Expected result:
+Появилось поле Room 2 c 2 выпадающими полями "Adults" и "Children (ages <1 to 17)".
+
+10)
+Head: 
+Показывает поле выбора количества комнат в номере, количества совершеннолетних и несовершеннолетних при выборе пакета услуг "Hotel + Car"
+
+Steps:
+1)Зайти на https://www.alaskaair.com/
+2)Выбрать вкладку "Packages"
+3)В выпадающем меню "Package Options" выбрать "Hotel + Car"
+ 
+Expected result:
+Присутствуют выпадающие поля "Rooms", "Adults" и "Children (ages <1 to 17)"
