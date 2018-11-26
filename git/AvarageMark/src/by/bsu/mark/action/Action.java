@@ -13,7 +13,10 @@ public class Action {
         OptionalDouble average = student.getMarks().stream().mapToDouble(a -> a).average();
         return average.isPresent() ? average.getAsDouble() : 0;
     }
-
+	
+    /**
+	 * Calculates avarage grade for passed group.
+	 */
     public double getGroupAvg(Group group) {
         double groupAvarage = 0;
         for (Student student : group.getStudentList()) {
