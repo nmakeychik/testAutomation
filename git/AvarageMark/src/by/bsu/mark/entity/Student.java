@@ -26,7 +26,7 @@ public class Student {
     }
 
 	/**
-	 * Returns set of grades for this student.
+	 * Adds grade to list of grades for this student.
 	 */
     public void addMark(Integer mark) {
         if (mark > MAX_MARK || mark < MIN_MARK) {
