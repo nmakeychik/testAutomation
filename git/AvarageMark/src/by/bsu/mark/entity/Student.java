@@ -19,6 +19,9 @@ public class Student {
         this.marks = new ArrayList<Integer>();
     }
 
+	/**
+	 * Returns set of grades for this student.
+	 */
     public void addMark(Integer mark) {
         if (mark > MAX_MARK || mark < MIN_MARK) {
             throw new RuntimeException("Wrong mark value provided");
