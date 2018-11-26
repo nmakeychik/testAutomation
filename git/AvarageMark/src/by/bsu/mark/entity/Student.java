@@ -16,6 +16,9 @@ public class Student {
 	 */
     private static final int MIN_MARK = 1;
 
+	/**
+	 * Grades of this student.
+	 */
     private List<Integer> marks;
 
     public Student() {
