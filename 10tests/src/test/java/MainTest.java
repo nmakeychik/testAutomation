@@ -1,20 +1,18 @@
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
+import pages.MainPage;
 import steps.MainPageSteps;
 
 import java.util.concurrent.TimeUnit;
 
 public class MainTest {
-    // ссылка на сайт
-    private static final String SITE_LINK = "https://www.alaskaair.com";
+    private static final String SITE_LINK = "https://www.s7.ru/en/";
     private WebDriver driver;
     private MainPageSteps mainPageSteps;
     private WebDriverWait wait;
@@ -26,20 +24,13 @@ public class MainTest {
 
     @BeforeMethod
     public void openPage() {
-        ChromeOptions options = new ChromeOptions()
-                .addArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-                        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36")
-                .addArguments("--start-maximized");
-        // создаем объект драйвера, который будет гулять по странице
-        driver = new ChromeDriver(options);
-        // создаем штуку которая будет ждать пока страница загрузится
-        wait = new WebDriverWait(driver, 30);
-        // идем на страницу
+        driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, 10);
+
         driver.get(SITE_LINK);
-        // размеры окна ставим 1400 на 900
-        driver.manage().window().setSize(new Dimension(1400, 900));
-        // ждем если что 60 секунд пока загрузится
         driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+
+        mainPageSteps = new MainPageSteps(new MainPage(driver, wait));
     }
 
     @AfterMethod
@@ -48,89 +39,101 @@ public class MainTest {
     }
 
     @Test
-    public void oneCanNotOrderAFlightIfNoDataWasInputted() {
-        String errorText = mainPageSteps
-                .findFlights()
-                .getErrorText();
+    public void oneCanNotSearchForRacesWithoutInputtingData() {
+        mainPageSteps.searchRacesWithoutInputtingAnyText();
 
-        Assert.assertEquals(errorText, "The following fields are required: from city, to city");
+        Assert.assertTrue(mainPageSteps.hasErrorsOnPage());
     }
 
     @Test
-    public void ifChosenOneWayThenDestinationWillNotBeShown() {
-        mainPageSteps.chooseOneWay();
+    public void oneCanNotOrderAFlightForMoreThan9Adults() {
+        String expected = "plus disabled";
 
-        Assert.assertFalse(mainPageSteps.isReturnAirportVisible());
+        Assert.assertEquals(mainPageSteps.checkAdultsError(8), expected);
     }
 
     @Test
-    public void isAbleToPreventOrderTicketWithSameFromAndToAirport() {
-        String airportName = "New York, NY (JFK-Kennedy)";
+    public void oneCanNotFindNonexistentBooking() {
+        mainPageSteps.enterBookingDataAndFind("adfasfasf", "12345");
 
-        mainPageSteps.setFromAirport(airportName);
-        mainPageSteps.setToAirport(airportName);
-        mainPageSteps.clickFindFlightsButton();
-
-        Assert.assertTrue(mainPageSteps.isFromAndToCityAreTheSameErrorMessageVisible());
+        Assert.assertTrue(mainPageSteps.hasBookingError());
     }
 
     @Test
-    public void oneCanNotOrderAFlightOnlyWithChildren() {
-        mainPageSteps.openChoosePassengersDropDown()
-                .setAdults(0)
-                .setInfants(3);
+    public void oneCanAddOnlyOneInfantForOneAdult() {
+        String expected = "plus disabled";
+        String actual = mainPageSteps
+                .addPassengers(0, 0, 2)
+                .getInfantsError();
 
-        Assert.assertTrue(mainPageSteps.isErrorVisible());
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void oneCanNotOrderAFlightFor2AdultsAnd5Infants() {
-        mainPageSteps.openChoosePassengersDropDown()
-                .setAdults(2)
-                .setInfants(5);
+    public void oneCanOrderMaximum9AdultsAnd9Infants() {
+        String expected = "plus disabled";
 
-        Assert.assertTrue(mainPageSteps.isErrorVisible());
+        mainPageSteps.addPassengers(8, 0, 9);
+
+        String adultsError = mainPageSteps.getAdultsError();
+        String infantsError = mainPageSteps.getInfantsError();
+
+        Assert.assertEquals(adultsError, expected);
+        Assert.assertEquals(infantsError, expected);
     }
 
     @Test
-    public void oneCanNotOrderAFlightForMoreThan7Children() {
-        mainPageSteps.openChoosePassengersDropDown()
-                .setAdults(0)
-                .setChildren(8);
+    public void oneHasToInputValidBookingId() {
+        String actual = mainPageSteps
+                .enterBookingDataAndFind("asdadfadsaf", "1")
+                .getBookingIdError();
 
-        Assert.assertTrue(mainPageSteps.isErrorVisible());
+        Assert.assertFalse(actual.isEmpty());
     }
 
     @Test
-    public void oneCanSeeRoomsNumberInputIfClicksOnHotelsSection() {
-        mainPageSteps.openHotels();
+    public void oneCanNotInsertInBookingId13Letters() {
+        String error = mainPageSteps
+                .enterBookingDataAndFind("adsfdsafsadf", "abcdefghijklm")
+                .getBookingIdError();
 
-        Assert.assertTrue(mainPageSteps.isHotelsRoomNumberInputVisible());
+        Assert.assertFalse(error.isEmpty());
     }
 
     @Test
-    public void oneWillSeeErrorIfDoNotInputDataInCheckInAndClickFind() {
-        mainPageSteps.openCheckInMenu()
-                .findCheckIn();
+    public void oneCanNotInsertLettersInFlightNumber() {
+        String expected = "Please, use digits only";
 
-        Assert.assertTrue(mainPageSteps.isCheckInErrorVisible());
+        String error = mainPageSteps
+                .goToFlightStatus()
+                .checkFlightNumber()
+                .insertFlightData("aaa")
+                .getFlightNumberError();
+
+        Assert.assertFalse(error.isEmpty());
     }
 
     @Test
-    public void oneCanSeePickUpLocationIfClicksOnCars() {
-        mainPageSteps.openCarsTab();
+    public void oneCanNotInsertNumbersInOnlineCheckInSurnameField() {
+        String expected = "Use latin characters only";
 
-        Assert.assertTrue(mainPageSteps.isPickUpVisible());
+        String actual = mainPageSteps
+                .goToOnlineCheckIn()
+                .insertOnlineCheckInDataAndSubmit("1", "")
+                .getOnlineCheckInSurnameDataError();
+
+        Assert.assertTrue(actual.contains(expected));
     }
 
     @Test
-    public void oneWillSeeErrorIfInputsNotValidConfirmationCodeInManageTripTab() {
-        mainPageSteps.openManageTripTab()
-                .inputPassengerName("1231231")
-                .inputConfirmationCode("1231312312312");
+    public void onlineCheckInFieldsCanNotBeEmpty() {
+        mainPageSteps.goToOnlineCheckIn()
+                .insertOnlineCheckInDataAndSubmit("", "");
 
-        Assert.assertTrue(mainPageSteps.isConfirmationCodeErrorVisible());
+        String surnameError = mainPageSteps.getOnlineCheckInSurnameDataError();
+        String idError = mainPageSteps.getOnlineCheckInIdError();
+
+        Assert.assertTrue(!surnameError.isEmpty());
+        Assert.assertTrue(!idError.isEmpty());
     }
-
-
 }

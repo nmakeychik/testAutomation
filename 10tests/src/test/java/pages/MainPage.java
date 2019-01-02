@@ -1,82 +1,94 @@
 package pages;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage {
     private final WebDriverWait wait;
     private WebDriver driver;
 
-    @FindBy(id = "findFlights")
-    private WebElement searchButton;
+    @FindBy(id = "search-btn-expand-bot")
+    WebElement searchButton;
 
-    @FindBy(id = "shopping_err_0")
-    private WebElement flightErrorText;
+    @FindBy(id = "flights_destination2-error")
+    WebElement airportToError;
 
-    @FindBy(id = "oneWay")
-    private WebElement oneWay;
+    @FindBy(xpath = "//div[@id='date-opener2']/preceding-sibling::div[@class='error error-msg']")
+    WebElement datesError;
 
-    @FindBy(id = "returnDate")
-    private WebElement returnAirportInput;
+    @FindBy(id = "aviaBotPassengers")
+    private WebElement passengers;
 
-    @FindBy(id = "fromCity1")
-    private WebElement fromAirportInput;
+    @FindBy(xpath = "//div[@tabindex='41']")
+    private WebElement plusAdult;
 
-    @FindBy(id = "toCity1")
-    private WebElement toAirportInput;
+    @FindBy(xpath = "//ul[@class='row resp-tabs-list resp-tabs-parent grid-flexible-size bot-tabs-top']/li[4]")
+    private WebElement myBookingMenuItem;
 
-    @FindBy(id = "shopping_err_0")
-    private WebElement citiesError;
+    @FindBy(id = "from-input-bot6")
+    private WebElement bookingSurname;
 
-    @FindBy(id = "childrenCountDropDown")
-    private WebElement passengersDropDown;
+    @FindBy(id = "to-input-bot6")
+    private WebElement bookingId;
 
-    @FindBy(id = "infantPlus")
-    private WebElement InfantsPlus;
+    @FindBy(id = "manage-booking-submit")
+    private WebElement bookingSubmit;
 
-    @FindBy(id = "adultCount")
-    private WebElement setAdultsInput;
+    @FindBy(xpath = "//h2/span[@class='error-msg']")
+    private WebElement bookingError;
 
-    @FindBy(xpath = "//svg[@id='childrenMinus']/following-sibling::svg")
-    private WebElement childrenPlus;
+    @FindBy(xpath = "//div[@tabindex='43']")
+    private WebElement addChildren;
 
-    @FindBy(id = "tab-hotels")
-    private WebElement hotelsButton;
+    @FindBy(xpath = "//div[@tabindex='45']")
+    private WebElement addInfants;
 
-    @FindBy(id = "hotelRoomsNum")
-    private WebElement hotelsRoomNumberInput;
+    @FindBy(id = "flights_destination2")
+    private WebElement toAirport;
 
-    @FindBy(id = "navHeaderCheckin")
-    private WebElement checkInMenuItem;
+    @FindBy(xpath = "//*[@id='aviaBot']/div[2]/div[2]")
+    private WebElement swapButton;
 
-    @FindBy(xpath = "//input[@name='CheckinBtn']")
-    private WebElement findCheckInButton;
+    @FindBy(xpath = "//*[@id=\"aviaBot\"]/div[2]/div[1]/div/div[1]/div/a/div[3]")
+    private WebElement fromAirportText;
 
-    @FindBy(id = "desktop-checkin-error-departure")
-    private WebElement checkInError;
+    @FindBy(id = "to-input-bot6-error")
+    private WebElement bookingIdError;
 
-    @FindBy(id = "tab-cars")
-    private WebElement carsTab;
+    @FindBy(xpath = "//ul[@class='row resp-tabs-list resp-tabs-parent grid-flexible-size bot-tabs-top']/li[5]")
+    private WebElement flightStatusMenuItem;
 
-    @FindBy(id = "carOnlyToLocation")
-    private WebElement pickUpCarsInput;
+    @FindBy(xpath = "//div[@class='flight-status-bot_status-type-switcher']/div[2]/label")
+    private WebElement flightNumberCheckBox;
 
-    @FindBy(id = "tab-manage")
-    private WebElement manageTripTab;
+    @FindBy(xpath = "//input[@class='form-control input-bordered flight-status-bot_flight-number-input']")
+    private WebElement flightNumberInput;
 
-    @FindBy(xpath = "//div[@id='manage']//input[1]")
-    private WebElement passengerNameInput;
+    @FindBy(xpath = "//div[@class='row flight-status-bot_flight-number-search-view']/div[1]//div[@class='error error-msg']")
+    private WebElement flightNumberError;
 
-    @FindBy(xpath = "//div[@id='manage']//input[2]")
-    private WebElement confirmationIdInput;
+    @FindBy(xpath = "//ul[@class='row resp-tabs-list resp-tabs-parent grid-flexible-size bot-tabs-top']/li[3]")
+    private WebElement onlineCheckInMenuItem;
 
-    @FindBy(id = "ErrorCodeOrNumber")
-    private WebElement confirmationCodeError;
+    @FindBy(id = "from-input-bot4")
+    private WebElement onlineCheckInSurnameInput;
+
+    @FindBy(id = "from-input-bot4-error")
+    private WebElement onlineCheckInSurnameDataError;
+
+    @FindBy(id = "to-input-bot4")
+    private WebElement onlineCheckInIdInput;
+
+    @FindBy(id = "to-input-bot4-error")
+    private WebElement onlineCheckInIdError;
+
+    @FindBy(id = "check-in-submit")
+    private WebElement onlineCheckInSubmit;
 
     public MainPage(WebDriver driver, WebDriverWait wait) {
         PageFactory.initElements(driver, this);
@@ -84,130 +96,166 @@ public class MainPage {
         this.wait = wait;
     }
 
-    /**
-     * Ждет появления элемента
-     *
-     * @param element
-     * @return
-     */
     private WebElement waitForVisabilityOf(WebElement element) {
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    /**
-     * Ждет пока элемент станет кликабелиным
-     *
-     * @param element
-     * @return
-     */
     private WebElement waitForClickabilityOf(WebElement element) {
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public MainPage clickSearchButton() {
+    public MainPage searchRaces() {
         waitForVisabilityOf(searchButton).click();
 
         return this;
     }
 
-    public String getErrorText() {
-        return waitForVisabilityOf(flightErrorText).getText();
+    public boolean checkErrors() {
+        try {
+            String airportToErrorText = waitForVisabilityOf(airportToError).getText();
+            String datesErrorText = waitForVisabilityOf(datesError).getText();
+
+            return !airportToErrorText.isEmpty() && !datesErrorText.isEmpty();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return false;
+        }
     }
 
-    public MainPage clickOneWay() {
-        waitForClickabilityOf(oneWay).click();
+    public MainPage openPassengersDropdown() {
+        passengers.click();
         return this;
     }
 
-    public boolean isReturnDateInputVisible() {
-        return returnAirportInput.isDisplayed();
-    }
-
-    public void setFromAirport(String fromAirport) {
-        waitForVisabilityOf(fromAirportInput).clear();
-        waitForVisabilityOf(fromAirportInput).sendKeys(fromAirport);
-    }
-
-    public void setToAirport(String toAirport) {
-        waitForVisabilityOf(toAirportInput).clear();
-        waitForVisabilityOf(toAirportInput).sendKeys(toAirport);
-    }
-
-    public void clickFindFlightsButton() {
-        waitForClickabilityOf(searchButton).click();
-    }
-
-    public boolean isFromAndToCityAreTheSameErrorMessageVisible() {
-        return waitForVisabilityOf(citiesError).isDisplayed();
-    }
-
-    public MainPage openChoosePassengersDropDown() {
-        waitForVisabilityOf(passengersDropDown).click();
-        return this;
-    }
-
-    public MainPage setInfants(int children) {
-        for (int i = 0; i < children; i++) {
-            waitForClickabilityOf(InfantsPlus).click();
+    public MainPage addAdults(int num) {
+        for (int i = 0; i < num; i++) {
+            waitForClickabilityOf(plusAdult).click();
         }
 
         return this;
     }
 
-    public MainPage setAdults(int adults) {
-        new Select(waitForClickabilityOf(setAdultsInput)).selectByIndex(adults);
+    public String getAdultsError() {
+        return plusAdult.getAttribute("class");
+    }
+
+    public MainPage goToBooking() {
+        waitForClickabilityOf(myBookingMenuItem).click();
 
         return this;
     }
 
-    public MainPage setChildren(int children) {
-        for (int i = 0; i < children; i++) {
-            waitForClickabilityOf(childrenPlus).click();
+    public MainPage enterBookingSurname(String surnameOrEmail) {
+        waitForVisabilityOf(bookingSurname).sendKeys(surnameOrEmail);
+        return this;
+    }
+
+    public MainPage enterBookingId(String bookingId) {
+        waitForVisabilityOf(this.bookingId).sendKeys(bookingId);
+        return this;
+    }
+
+    public void findBooking() {
+        waitForClickabilityOf(bookingSubmit).click();
+    }
+
+    public boolean hasBookingError() {
+        try {
+            String errorText = waitForVisabilityOf(bookingError).getText();
+
+            return !errorText.isEmpty();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return false;
         }
+    }
+
+    public MainPage addChildren(int numberOfChildren) {
+        for (int i = 0; i < numberOfChildren; i++) {
+            waitForClickabilityOf(addChildren).click();
+        }
+
         return this;
     }
 
-    public void clickHotels() {
-        waitForClickabilityOf(hotelsButton).click();
+    public MainPage addInfants(int numberOfInfants) {
+        for (int i = 0; i < numberOfInfants; i++) {
+            waitForClickabilityOf(addInfants).click();
+        }
+
+        return this;
     }
 
-    public boolean isHotelsRoomNumberInputVisible() {
-        return waitForVisabilityOf(hotelsRoomNumberInput).isDisplayed();
+    public String getInfantsError() {
+        return waitForVisabilityOf(addInfants).getAttribute("class");
     }
 
-    public void clickCheckInMenu() {
-        waitForClickabilityOf(checkInMenuItem).click();
+    public MainPage inputToAirport(String name) {
+        waitForVisabilityOf(toAirport).sendKeys(name);
+        waitForVisabilityOf(toAirport).sendKeys(Keys.RETURN);
+        return this;
     }
 
-    public void chickFindCheckIn() {
-        waitForClickabilityOf(findCheckInButton).click();
+    public MainPage swapAirports() {
+        waitForVisabilityOf(swapButton).click();
+        return this;
     }
 
-    public boolean isCheckInErrorVisible() {
-        return waitForVisabilityOf(checkInError).isDisplayed();
+    public String getFromAirportText() {
+        return fromAirportText.getText();
     }
 
-    public void clickCarsTab() {
-        waitForClickabilityOf(carsTab).click();
+    public String getBookingIdError() {
+        return waitForVisabilityOf(bookingIdError).getText();
     }
 
-    public boolean isPickUpInputVisible() {
-        return waitForVisabilityOf(pickUpCarsInput).isDisplayed();
+    public MainPage goToFlightStatus() {
+        waitForClickabilityOf(flightStatusMenuItem).click();
+        return this;
     }
 
-    public void clickManageTripTab() {
-        waitForClickabilityOf(manageTripTab).click();
+    public MainPage checkFlightNumber() {
+        waitForClickabilityOf(flightNumberCheckBox).click();
+        return this;
     }
 
-    public void inputPassengerName(String name) {
-        waitForVisabilityOf(passengerNameInput).sendKeys(name);
+    public MainPage insertFlightNumber(String data) {
+        waitForVisabilityOf(flightNumberInput).sendKeys(data);
+        return this;
     }
 
-    public void inputConfirmationCode(String code) {
-        waitForVisabilityOf(confirmationIdInput).sendKeys(code);
+    public String getFlightNumberError() {
+        return waitForVisabilityOf(flightNumberError).getText();
     }
 
-    public boolean isConfirmationCodeErrorVisible() {
-        return waitForVisabilityOf(confirmationCodeError).isDisplayed();
+    public MainPage goToOnlineCheckIn() {
+        waitForClickabilityOf(onlineCheckInMenuItem).click();
+        return this;
+    }
+
+    public MainPage insertOnlineCheckInSurnameData(String surname) {
+        waitForVisabilityOf(onlineCheckInSurnameInput).sendKeys(surname);
+        return this;
+    }
+
+    public MainPage insertOnlineCheckInIdData(String id) {
+        waitForVisabilityOf(onlineCheckInIdInput).sendKeys(id);
+        return this;
+    }
+
+    public String getOnlineCheckInSurnameDataError() {
+        return waitForVisabilityOf(onlineCheckInSurnameDataError).getText();
+    }
+
+    public String getOnlineCheckInIdError() {
+        return waitForVisabilityOf(onlineCheckInIdError).getText();
+
+    }
+
+    public MainPage onlineCheckInSubmit() {
+        waitForClickabilityOf(onlineCheckInSubmit).click();
+        return this;
     }
 }

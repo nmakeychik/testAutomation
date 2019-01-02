@@ -9,110 +9,100 @@ public class MainPageSteps {
         mainPage = page;
     }
 
-    public MainPageSteps findFlights() {
-        mainPage.clickSearchButton();
+    public void searchRacesWithoutInputtingAnyText() {
+        mainPage.searchRaces();
+    }
+
+    public boolean hasErrorsOnPage() {
+        return mainPage.checkErrors();
+    }
+
+    public String checkAdultsError(int numberOfAdults) {
+        return addPassengers(numberOfAdults, 0, 0)
+                .getAdultsError();
+    }
+
+    public MainPageSteps enterBookingDataAndFind(String surnameOrEmail, String orderId) {
+        mainPage.goToBooking()
+                .enterBookingSurname(surnameOrEmail)
+                .enterBookingId(orderId)
+                .findBooking();
         return this;
     }
 
-    public String getErrorText() {
-        return mainPage.getErrorText();
+    public String getBookingIdError() {
+        return mainPage.getBookingIdError();
     }
 
-    public MainPageSteps chooseOneWay() {
-        mainPage.clickOneWay();
+    public boolean hasBookingError() {
+        return mainPage.hasBookingError();
+    }
+
+    public MainPageSteps addPassengers(int numberOfAdults, int numberOfChildren, int numberOfInfants) {
+        mainPage.openPassengersDropdown()
+                .addAdults(numberOfAdults)
+                .addChildren(numberOfChildren)
+                .addInfants(numberOfInfants);
+
         return this;
     }
 
-    public boolean isReturnAirportVisible() {
-        return mainPage.isReturnDateInputVisible();
+    public String getAdultsError() {
+        return mainPage.getAdultsError();
     }
 
-    public void setFromAirport(String fromAirport) {
-        mainPage.setFromAirport(fromAirport);
+    public String getInfantsError() {
+        return mainPage.getInfantsError();
     }
 
-    public void setToAirport(String toAirport) {
-        mainPage.setToAirport(toAirport);
-    }
+    public MainPageSteps inputToAirportAndSwap(String name) {
+        mainPage.inputToAirport(name)
+                .swapAirports();
 
-    public void clickFindFlightsButton() {
-        mainPage.clickFindFlightsButton();
-    }
-
-    public boolean isFromAndToCityAreTheSameErrorMessageVisible() {
-        return mainPage.isFromAndToCityAreTheSameErrorMessageVisible();
-    }
-
-    public MainPageSteps openChoosePassengersDropDown() {
-        mainPage.openChoosePassengersDropDown();
         return this;
     }
 
-    public void setInfants(int children) {
-        mainPage.setInfants(children);
+    public String getFromAirportText() {
+        return mainPage.getFromAirportText();
     }
 
-    public MainPageSteps setAdults(int adults) {
-        mainPage.setAdults(adults);
+    public MainPageSteps goToFlightStatus() {
+        mainPage.goToFlightStatus();
         return this;
     }
 
-    public boolean isErrorVisible() {
-        return mainPage.isFromAndToCityAreTheSameErrorMessageVisible();
-    }
-
-    public MainPageSteps setChildren(int children) {
-        mainPage.setChildren(children);
+    public MainPageSteps insertFlightData(String data) {
+        mainPage.insertFlightNumber(data);
         return this;
     }
 
-    public MainPageSteps openHotels() {
-        mainPage.clickHotels();
+    public MainPageSteps checkFlightNumber() {
+        mainPage.checkFlightNumber();
+        return this;
+
+    }
+
+    public String getFlightNumberError() {
+        return mainPage.getFlightNumberError();
+    }
+
+    public MainPageSteps goToOnlineCheckIn() {
+        mainPage.goToOnlineCheckIn();
         return this;
     }
 
-    public boolean isHotelsRoomNumberInputVisible() {
-        return mainPage.isHotelsRoomNumberInputVisible();
-    }
-
-    public MainPageSteps openCheckInMenu() {
-        mainPage.clickCheckInMenu();
+    public MainPageSteps insertOnlineCheckInDataAndSubmit(String surname, String id) {
+        mainPage.insertOnlineCheckInSurnameData(surname)
+                .insertOnlineCheckInIdData(id)
+                .onlineCheckInSubmit();
         return this;
     }
 
-    public void findCheckIn() {
-        mainPage.chickFindCheckIn();
+    public String getOnlineCheckInSurnameDataError() {
+        return mainPage.getOnlineCheckInSurnameDataError();
     }
 
-    public boolean isCheckInErrorVisible() {
-        return mainPage.isCheckInErrorVisible();
-    }
-
-    public MainPageSteps openCarsTab() {
-        mainPage.clickCarsTab();
-        return this;
-    }
-
-    public boolean isPickUpVisible() {
-        return mainPage.isPickUpInputVisible();
-    }
-
-    public MainPageSteps openManageTripTab() {
-        mainPage.clickManageTripTab();
-        return this;
-    }
-
-    public MainPageSteps inputPassengerName(String name) {
-        mainPage.inputPassengerName(name);
-        return this;
-    }
-
-    public MainPageSteps inputConfirmationCode(String code) {
-        mainPage.inputConfirmationCode(code);
-        return this;
-    }
-
-    public boolean isConfirmationCodeErrorVisible() {
-        return mainPage.isConfirmationCodeErrorVisible();
+    public String getOnlineCheckInIdError() {
+        return mainPage.getOnlineCheckInIdError();
     }
 }
